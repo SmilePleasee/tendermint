@@ -21,7 +21,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          DOCKER_IMAGE=tendermint/tendermint
+          DOCKER_IMAGE=pshub/tendermint_unified_001
           VERSION=noop
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
@@ -43,12 +43,8 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build Tendermint
-        run: |
-          make build-linux && cp build/tendermint DOCKER/tendermint
+          username: pshub
+          password: dockerhubDOCKERHUB1#
 
       - name: Publish to Docker Hub
         uses: docker/build-push-action@v2

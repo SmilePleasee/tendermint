@@ -20,12 +20,9 @@ RUN apk update && \
     adduser -S -G tmuser tmuser -h "$TMHOME"
     
 # Build tendermint from source.
-RUN git clone https://github.com/tendermint/tendermint.git && \
-    cd tendermint && \
-    make build-linux && \
-    cp build/tendermint /usr/bin/tendermint &&\
-    cd .. && \
-    rm -rf tendermint
+COPY / /tendermint
+WORKDIR /tendermint
+RUN make build-linux && cp build/tendermint /usr/bin/tendermint
 
 # Run the container with tmuser by default. (UID=100, GID=1000)
 USER tmuser

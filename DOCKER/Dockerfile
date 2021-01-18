@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM golang:1.15-alpine
 LABEL maintainer="hello@tendermint.com"
 
 # Tendermint will be looking for the genesis file in /tendermint/config/genesis.json
@@ -15,9 +15,17 @@ ENV TMHOME /tendermint
 # could execute bash commands.
 RUN apk update && \
     apk upgrade && \
-    apk --no-cache add curl jq bash && \
+    apk --no-cache add curl jq bash git make && \
     addgroup tmuser && \
-    adduser -S -G tmuser tmuser -h "$TMHOME"
+    adduser -S -G tmuser tmuser -h "$TMHOME"# Build tendermint from source.
+    
+# Build tendermint from source.
+RUN git clone https://github.com/tendermint/tendermint.git && \
+    cd tendermint && \
+    make build-linux && \
+    cp build/tendermint /usr/bin/tendermint &&\
+    cd .. && \
+    rm -rf tendermint
 
 # Run the container with tmuser by default. (UID=100, GID=1000)
 USER tmuser
@@ -28,9 +36,6 @@ WORKDIR $TMHOME
 EXPOSE 26656 26657 26660
 
 STOPSIGNAL SIGTERM
-
-ARG BINARY=tendermint
-COPY $BINARY /usr/bin/tendermint
 
 # You can overwrite these before the first run to influence
 # config.json and genesis.json. Additionally, you can override

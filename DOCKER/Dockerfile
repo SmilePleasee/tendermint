@@ -17,7 +17,7 @@ RUN apk update && \
     apk upgrade && \
     apk --no-cache add curl jq bash git make && \
     addgroup tmuser && \
-    adduser -S -G tmuser tmuser -h "$TMHOME"# Build tendermint from source.
+    adduser -S -G tmuser tmuser -h "$TMHOME"
     
 # Build tendermint from source.
 RUN git clone https://github.com/tendermint/tendermint.git && \

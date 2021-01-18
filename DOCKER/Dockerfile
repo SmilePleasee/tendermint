@@ -22,7 +22,9 @@ RUN apk update && \
 # Build tendermint from source.
 COPY / /tendermint
 WORKDIR /tendermint
-RUN make build-linux && cp build/tendermint /usr/bin/tendermint
+RUN pwd
+RUN make build-linux
+RUN cp build/tendermint /usr/bin/tendermint
 
 # Run the container with tmuser by default. (UID=100, GID=1000)
 USER tmuser

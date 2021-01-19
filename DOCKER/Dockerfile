@@ -42,7 +42,7 @@ STOPSIGNAL SIGTERM
 # CMD to add parameters to `tendermint node`.
 ENV PROXY_APP=kvstore MONIKER=dockernode CHAIN_ID=dockerchain
 
-COPY ./docker-entrypoint.sh /usr/local/bin/
+COPY ./DOCKER/docker-entrypoint.sh /usr/local/bin/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["start"]

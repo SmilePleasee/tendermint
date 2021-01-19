@@ -20,6 +20,7 @@ RUN apk update && \
     adduser -S -G tmuser tmuser -h "$TMHOME"
     
 # Build tendermint from source.
+RUN pwd && ls
 RUN make build-linux
 RUN cp build/tendermint /usr/bin/tendermint
 

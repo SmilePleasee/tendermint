@@ -8,7 +8,6 @@ WORKDIR /tendermint
 RUN make build-linux
 RUN pwd && ls
 RUN ls ./build/
-RUN file ./build/tendermint
 
 
 # stage 2

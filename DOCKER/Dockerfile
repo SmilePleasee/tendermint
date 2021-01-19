@@ -1,3 +1,11 @@
+# stage 1 Building tendermint binary
+FROM golang:1.15-alpine as builder
+COPY / /tendermint
+WORKDIR /tendermint
+RUN make build-linux
+
+
+# stage 2
 FROM golang:1.15-alpine
 LABEL maintainer="hello@tendermint.com"
 
@@ -15,18 +23,9 @@ ENV TMHOME /tendermint
 # could execute bash commands.
 RUN apk update && \
     apk upgrade && \
-    apk --no-cache add curl jq bash git make && \
+    apk --no-cache add curl jq bash && \
     addgroup tmuser && \
     adduser -S -G tmuser tmuser -h "$TMHOME"
-
-# Build tendermint from source.
-COPY / /tendermint
-WORKDIR /tendermint
-RUN pwd
-RUN ls
-RUN make build-linux
-RUN cp ./build/tendermint /usr/bin/tendermint
-RUN rm -rf ./*
 
 # Run the container with tmuser by default. (UID=100, GID=1000)
 USER tmuser
@@ -37,6 +36,9 @@ WORKDIR $TMHOME
 EXPOSE 26656 26657 26660
 
 STOPSIGNAL SIGTERM
+
+ARG BINARY=./build/tendermint
+COPY --from=builder $BINARY /usr/bin/tendermint
 
 # You can overwrite these before the first run to influence
 # config.json and genesis.json. Additionally, you can override

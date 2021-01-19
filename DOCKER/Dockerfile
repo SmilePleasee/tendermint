@@ -20,13 +20,13 @@ RUN apk update && \
     adduser -S -G tmuser tmuser -h "$TMHOME"
 
 # Build tendermint from source.
-COPY / /workspace
-WORKDIR /workspace
+COPY / /tendermint
+WORKDIR /tendermint
 RUN pwd
 RUN ls
 RUN make build-linux
 RUN cp ./build/tendermint /usr/bin/tendermint
-RUN rm -rf ../workspace
+RUN rm -rf ./*
 
 # Run the container with tmuser by default. (UID=100, GID=1000)
 USER tmuser

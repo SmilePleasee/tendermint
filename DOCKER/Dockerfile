@@ -25,7 +25,7 @@ WORKDIR /workspace
 RUN pwd
 RUN ls
 RUN make build-linux
-RUN cp ../build/tendermint /usr/bin/tendermint
+RUN cp ./build/tendermint /usr/bin/tendermint
 
 # Run the container with tmuser by default. (UID=100, GID=1000)
 USER tmuser

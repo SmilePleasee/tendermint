@@ -21,6 +21,7 @@ RUN apk update && \
 
 # Build tendermint from source.
 COPY ../ /workspace
+WORKDIR /workspace
 RUN pwd
 RUN ls
 RUN make build-linux

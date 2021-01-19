@@ -19,17 +19,18 @@ RUN apk update && \
     addgroup tmuser && \
     adduser -S -G tmuser tmuser -h "$TMHOME"
 
-# Run the container with tmuser by default. (UID=100, GID=1000)
-USER tmuser
-
-WORKDIR $TMHOME
-
 # Build tendermint from source.
 COPY / /tendermint
+WORKDIR ../tendermint
 RUN pwd
 RUN ls
 RUN make build-linux
 RUN cp build/tendermint /usr/bin/tendermint
+
+# Run the container with tmuser by default. (UID=100, GID=1000)
+USER tmuser
+
+WORKDIR $TMHOME
 
 # p2p, rpc and prometheus port
 EXPOSE 26656 26657 26660

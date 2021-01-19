@@ -23,6 +23,7 @@ RUN apk update && \
 COPY / /tendermint
 WORKDIR /tendermint
 RUN pwd
+RUN ls
 RUN make build-linux
 RUN cp build/tendermint /usr/bin/tendermint
 

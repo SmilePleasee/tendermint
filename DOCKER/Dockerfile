@@ -20,7 +20,7 @@ RUN apk update && \
     adduser -S -G tmuser tmuser -h "$TMHOME"
 
 # Build tendermint from source.
-COPY ../ /workspace
+COPY / /workspace
 WORKDIR /workspace
 RUN pwd
 RUN ls

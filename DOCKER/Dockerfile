@@ -25,6 +25,7 @@ USER tmuser
 WORKDIR $TMHOME
 
 # Build tendermint from source.
+COPY / /tendermint
 RUN pwd
 RUN ls
 RUN make build-linux

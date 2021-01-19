@@ -6,6 +6,9 @@ RUN apk update && \
 COPY / /tendermint
 WORKDIR /tendermint
 RUN make build-linux
+RUN pwd && ls
+RUN ls ./build/
+RUN file ./build/tendermint
 
 
 # stage 2
@@ -40,8 +43,7 @@ EXPOSE 26656 26657 26660
 
 STOPSIGNAL SIGTERM
 
-ARG BINARY=./build/tendermint
-COPY --from=builder $BINARY /usr/bin/tendermint
+COPY --from=builder /tendermint/build/tendermint /usr/bin/tendermint
 
 # You can overwrite these before the first run to influence
 # config.json and genesis.json. Additionally, you can override

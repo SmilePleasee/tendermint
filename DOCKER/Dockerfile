@@ -1,5 +1,8 @@
 # stage 1 Building tendermint binary
 FROM golang:1.15-alpine as builder
+RUN apk update && \
+    apk upgrade && \
+    apk --no-cache add make
 COPY / /tendermint
 WORKDIR /tendermint
 RUN make build-linux
